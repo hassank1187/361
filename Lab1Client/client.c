@@ -25,7 +25,7 @@
  * 
  */
 /*
- NOTE:
+ REFERENCE:
  Code here taken from Beej's Guide to Network Programming
  */
 #define SERVERPORT "4950"
