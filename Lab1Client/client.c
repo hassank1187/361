@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     
-    const char* host = "ug141.eecg.toronto.ca";
+    const char* host = "ug141.eecg.utoronto.ca";
     
     if((rv = getaddrinfo(host,SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));

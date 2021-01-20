@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=server.c
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/server.c
+CND_ARTIFACT_NAME_Debug=lab1server
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/lab1server
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=server.c.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/server.c.tar
+CND_PACKAGE_NAME_Debug=lab1server.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/lab1server.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=server.c
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/server.c
+CND_ARTIFACT_NAME_Release=lab1server
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/lab1server
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=server.c.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/server.c.tar
+CND_PACKAGE_NAME_Release=lab1server.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/lab1server.tar
 #
 # include compiler specific variables
 #
