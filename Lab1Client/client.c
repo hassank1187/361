@@ -121,7 +121,9 @@ int main(int argc, char** argv) {
     buf[numbytes] = '\0';
     printf("client: packet contains \"%s\"\n",buf);
     //
-  
+    char *rec = buf;
+    const char* expected_response = "yes";
+    if(!strcmp(expected_response,rec)) printf("A file transfer can start\n");
     //calculating the round trip time
     end = clock();
     rt_time = ((double)end - start) / CLOCKS_PER_SEC;

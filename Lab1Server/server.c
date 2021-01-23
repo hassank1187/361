@@ -96,7 +96,15 @@ int main(int argc, char** argv) {
     
     //Code for the response
     char* client_addr = s;
-    char* response = "yes";
+    char* response;
+    char* rec = buf;
+    const char* expected_response = "ftp";
+    if(!strcmp(expected_response,rec)){
+        response = "yes";
+    }
+    else{
+        response = "no";
+    }
     
     
     struct addrinfo hints_c, *cliinfo;
