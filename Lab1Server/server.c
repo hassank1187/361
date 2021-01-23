@@ -24,8 +24,9 @@
 /*
  * 
  */
-#define PORT "4950"  // the port users will be connecting to
-#define MAXBUFLEN 100
+#define SERVER_PORT "50000"  // the port users will be connecting to
+#define MAXBUFLEN 1000
+
 /*
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
@@ -53,7 +54,7 @@ int main(int argc, char** argv) {
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE;
     
-    if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0){
+    if ((rv = getaddrinfo(NULL, SERVER_PORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
     }
@@ -93,6 +94,9 @@ int main(int argc, char** argv) {
     buf[numbytes] = '\0';
     printf("listener: packet contains \"%s\"\n",buf);
     
+    
+    char* client_addr = s;
+    printf("The client is: %s", client_addr);
     close(sockfd);
     
     return (EXIT_SUCCESS);

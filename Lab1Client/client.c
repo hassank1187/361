@@ -28,13 +28,13 @@
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
  */
-#define SERVERPORT "4950"
+#define SERVERPORT "50000"
 int main(int argc, char** argv) {
     int sockfd;
     struct addrinfo hints, *servinfo, *p;
     int rv;
     int numbytes;
-    char* message = "test";
+    char* message = "ftp";
    
     
     memset(&hints, 0, sizeof hints);
