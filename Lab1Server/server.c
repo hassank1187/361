@@ -24,9 +24,9 @@
 /*
  * 
  */
-#define SERVER_PORT "50000"  // the port users will be connecting to
+#define SERVERPORT "50000"  // the port users will be connecting to
 #define MAXBUFLEN 1000
-
+#define CLIENTPORT "51000"
 /*
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE;
     
-    if ((rv = getaddrinfo(NULL, SERVER_PORT, &hints, &servinfo)) != 0){
+    if ((rv = getaddrinfo(NULL, SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
     }
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "listeber: failed to bind socket\n");
         return 2;
     }
-    freeaddrinfo(servinfo);
+    
     
     printf("listener: waiting to recvfrom...\n");
     addr_len = sizeof their_addr;
@@ -94,9 +94,35 @@ int main(int argc, char** argv) {
     buf[numbytes] = '\0';
     printf("listener: packet contains \"%s\"\n",buf);
     
-    
+    //Code for the response
     char* client_addr = s;
-    printf("The client is: %s", client_addr);
+    char* response = "yes";
+    
+    
+    struct addrinfo hints_c, *cliinfo;
+    int rv_c;
+    int numbytes_c;
+   
+    
+    memset(&hints_c, 0, sizeof hints_c);
+    hints_c.ai_family = AF_UNSPEC;
+    hints_c.ai_socktype = SOCK_DGRAM;
+    
+    if((rv_c = getaddrinfo(client_addr,CLIENTPORT, &hints_c, &cliinfo)) != 0){
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv_c));
+        return 1;
+    }
+    
+    if((numbytes_c = sendto(sockfd,response,strlen(response),0,cliinfo->ai_addr,cliinfo->ai_addrlen)) == -1){
+        perror("talker: sendto");
+        exit(1);
+    }
+    
+    printf("talker: sent %d bytes to %s\n",numbytes_c,client_addr);
+    
+    
+    freeaddrinfo(servinfo);
+    freeaddrinfo(cliinfo);
     close(sockfd);
     
     return (EXIT_SUCCESS);
