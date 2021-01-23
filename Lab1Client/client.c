@@ -21,6 +21,7 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<netdb.h>
+#include <time.h>
 
 /*
  * 
@@ -46,13 +47,10 @@ int main(int argc, char** argv) {
     int rv;
     int numbytes;
     char* message = "ftp";
-    
-    //
     struct sockaddr_storage their_addr;
     char buf[MAXBUFLEN];
     socklen_t addr_len;
     char s[INET6_ADDRSTRLEN];
-    //
     
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -67,14 +65,14 @@ int main(int argc, char** argv) {
     
     for(p = servinfo; p != NULL; p = p->ai_next){
         if((sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol)) == -1){
-            perror("talker: socket");
+            perror("client: socket");
             continue;
         }
         break;
     }
     
     if(p == NULL){
-        fprintf(stderr, "talker: failed to create socket \n");
+        fprintf(stderr, "client: failed to create socket \n");
         return 2;
     }
     
@@ -86,26 +84,31 @@ int main(int argc, char** argv) {
     }
     if (bind(sockfd, clientinfo->ai_addr, clientinfo->ai_addrlen) == -1){
             close(sockfd);
-            perror("listener: bind");
+            perror("client: bind");
             
         }
     
     //
+    // code to start measuring time
+    clock_t start,end;
+    double rt_time;
+    start = clock();
+    
     
     if((numbytes = sendto(sockfd,message,strlen(message),0,p->ai_addr,p->ai_addrlen)) == -1){
-        perror("talker: sendto");
+        perror("client: sendto");
         exit(1);
     }
-    printf("talker: sent %d bytes to %s\n",numbytes,host);
+    printf("client: sent %d bytes to %s\n",numbytes,host);
     
     //Code to start receiving
     if(clientinfo == NULL){
-        fprintf(stderr, "listener: failed to bind socket\n");
+        fprintf(stderr, "client: failed to bind socket\n");
         return 2;
     }
     
     
-    printf("listener: waiting to recvfrom...\n");
+    printf("client: waiting to recvfrom...\n");
     addr_len = sizeof their_addr;
     
     if((numbytes = recvfrom(sockfd,buf, MAXBUFLEN-1,0,(struct sockaddr *)&their_addr,&addr_len)) == -1){
@@ -113,13 +116,17 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    printf("listener: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
-    printf("listener: packet is %d bytes long\n", numbytes);
+    printf("client: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
+    printf("client: packet is %d bytes long\n", numbytes);
     buf[numbytes] = '\0';
-    printf("listener: packet contains \"%s\"\n",buf);
-    
-    
+    printf("client: packet contains \"%s\"\n",buf);
     //
+  
+    //calculating the round trip time
+    end = clock();
+    rt_time = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
+    
     freeaddrinfo(clientinfo);
     freeaddrinfo(servinfo);
     

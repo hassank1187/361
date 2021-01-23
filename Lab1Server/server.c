@@ -62,13 +62,13 @@ int main(int argc, char** argv) {
     //loop through all the results and bind to the first we can
     for(p = servinfo; p != NULL; p = p->ai_next){
         if ((sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol)) == -1){
-            perror("listener: socket");
+            perror("server: socket");
             continue;
         }
         
         if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1){
             close(sockfd);
-            perror("listener: bind");
+            perror("server: bind");
             continue;
         }
         
@@ -76,12 +76,12 @@ int main(int argc, char** argv) {
     }
     
     if(p == NULL){
-        fprintf(stderr, "listeber: failed to bind socket\n");
+        fprintf(stderr, "server: failed to bind socket\n");
         return 2;
     }
     
     
-    printf("listener: waiting to recvfrom...\n");
+    printf("server: waiting to recvfrom...\n");
     addr_len = sizeof their_addr;
     
     if((numbytes = recvfrom(sockfd,buf, MAXBUFLEN-1,0,(struct sockaddr *)&their_addr,&addr_len)) == -1){
@@ -89,10 +89,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    printf("listener: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
-    printf("listener: packet is %d bytes long\n", numbytes);
+    printf("server: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
+    printf("server: packet is %d bytes long\n", numbytes);
     buf[numbytes] = '\0';
-    printf("listener: packet contains \"%s\"\n",buf);
+    printf("server: packet contains \"%s\"\n",buf);
     
     //Code for the response
     char* client_addr = s;
@@ -114,11 +114,11 @@ int main(int argc, char** argv) {
     }
     
     if((numbytes_c = sendto(sockfd,response,strlen(response),0,cliinfo->ai_addr,cliinfo->ai_addrlen)) == -1){
-        perror("talker: sendto");
+        perror("server: sendto");
         exit(1);
     }
     
-    printf("talker: sent %d bytes to %s\n",numbytes_c,client_addr);
+    printf("server: sent %d bytes to %s\n",numbytes_c,client_addr);
     
     
     freeaddrinfo(servinfo);
