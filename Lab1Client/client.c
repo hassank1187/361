@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
     
     //
     
-    char* file_name = "sample.bin";
+    char* file_name = "sample1.txt";
     FILE *fileptr;
     char* file_buf;
     long filelen;
@@ -128,6 +128,12 @@ int main(int argc, char** argv) {
     fread(file_buf,filelen,1,fileptr);
     fclose(fileptr);
     
+    
+    if((numbytes = sendto(sockfd,file_buf,strlen(file_buf),0,p->ai_addr,p->ai_addrlen)) == -1){
+        perror("client: sendto");
+        exit(1);
+    }
+    printf("client: sent %d bytes to %s\n",numbytes,host);
     
     
     freeaddrinfo(servinfo);
