@@ -76,19 +76,7 @@ int main(int argc, char** argv) {
         return 2;
     }
     
-    //Code to setup binding
-    struct addrinfo *clientinfo;
-    if ((rv = getaddrinfo(NULL, CLIENTPORT, &hints, &clientinfo)) != 0){
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
-        return 1;
-    }
-    if (bind(sockfd, clientinfo->ai_addr, clientinfo->ai_addrlen) == -1){
-            close(sockfd);
-            perror("client: bind");
-            
-        }
     
-    //
     // code to start measuring time
     clock_t start,end;
     double rt_time;
@@ -101,11 +89,7 @@ int main(int argc, char** argv) {
     }
     printf("client: sent %d bytes to %s\n",numbytes,host);
     
-    //Code to start receiving
-    if(clientinfo == NULL){
-        fprintf(stderr, "client: failed to bind socket\n");
-        return 2;
-    }
+   
     
     
     printf("client: waiting to recvfrom...\n");
@@ -129,7 +113,6 @@ int main(int argc, char** argv) {
     rt_time = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
     
-    freeaddrinfo(clientinfo);
     freeaddrinfo(servinfo);
     
     close(sockfd);

@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     struct addrinfo hints, *servinfo, *p;
     int rv;
     int numbytes;
-    struct sockaddr_storage their_addr;
+    struct sockaddr_in their_addr;
     char buf[MAXBUFLEN];
     socklen_t addr_len;
     char s[INET6_ADDRSTRLEN];
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    printf("server: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
+    //printf("server: got a packet from %s\n", inet_ntop(their_addr.ss_family,get_in_addr((struct sockaddr *)&their_addr),s,sizeof s));
     printf("server: packet is %d bytes long\n", numbytes);
     buf[numbytes] = '\0';
     printf("server: packet contains \"%s\"\n",buf);
@@ -107,21 +107,13 @@ int main(int argc, char** argv) {
     }
     
     
-    struct addrinfo hints_c, *cliinfo;
-    int rv_c;
+    
     int numbytes_c;
    
     
-    memset(&hints_c, 0, sizeof hints_c);
-    hints_c.ai_family = AF_UNSPEC;
-    hints_c.ai_socktype = SOCK_DGRAM;
     
-    if((rv_c = getaddrinfo(client_addr,CLIENTPORT, &hints_c, &cliinfo)) != 0){
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv_c));
-        return 1;
-    }
-    
-    if((numbytes_c = sendto(sockfd,response,strlen(response),0,cliinfo->ai_addr,cliinfo->ai_addrlen)) == -1){
+    size_t length = sizeof their_addr;
+    if((numbytes_c = sendto(sockfd,response,strlen(response),0,(struct sockaddr *)&their_addr, length)) == -1){
         perror("server: sendto");
         exit(1);
     }
@@ -130,7 +122,7 @@ int main(int argc, char** argv) {
     
     
     freeaddrinfo(servinfo);
-    freeaddrinfo(cliinfo);
+    
     close(sockfd);
     
     return (EXIT_SUCCESS);
