@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     
-    const char* host = "ug141.eecg.utoronto.ca";
+    const char* host = "ug142.eecg.utoronto.ca";
     
     if((rv = getaddrinfo(host,SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
@@ -113,7 +113,25 @@ int main(int argc, char** argv) {
     rt_time = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
     
+    //
+    
+    char* file_name = "sample.bin";
+    FILE *fileptr;
+    char* file_buf;
+    long filelen;
+    fileptr = fopen(file_name,"rb");
+    fseek(fileptr,0,SEEK_END);
+    filelen = ftell(fileptr);
+    rewind(fileptr);
+    
+    file_buf = (char*)malloc(filelen * sizeof(char));
+    fread(file_buf,filelen,1,fileptr);
+    fclose(fileptr);
+    
+    
+    
     freeaddrinfo(servinfo);
+    
     
     close(sockfd);
     return (EXIT_SUCCESS);

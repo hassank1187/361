@@ -118,8 +118,9 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    printf("server: sent %d bytes to %s\n",numbytes_c,client_addr);
+    printf("server: sent %d bytes to %ul\n",numbytes_c, their_addr.sin_addr.s_addr);
     
+   
     
     freeaddrinfo(servinfo);
     
