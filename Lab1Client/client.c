@@ -51,6 +51,9 @@ int main(int argc, char** argv) {
     char buf[MAXBUFLEN];
     socklen_t addr_len;
     char s[INET6_ADDRSTRLEN];
+    char* file_name = "sample1.txt";
+    
+    if(!(access(file_name,F_OK) == 0)) return 0;
     
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -115,7 +118,7 @@ int main(int argc, char** argv) {
     
     //
     
-    char* file_name = "sample1.txt";
+    
     FILE *fileptr;
     char* file_buf;
     long filelen;
@@ -143,3 +146,9 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
+/*
+command line arguments
+makefile
+s3,s4 
+ 
+ */
