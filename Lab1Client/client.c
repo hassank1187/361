@@ -144,12 +144,7 @@ int main(int argc, char** argv) {
     fread(file_buf,filelen,1,fileptr);
     fclose(fileptr);
     
-    
-    if((numbytes = sendto(sockfd,file_buf,strlen(file_buf),0,p->ai_addr,p->ai_addrlen)) == -1){
-        perror("client: sendto");
-        exit(1);
-    }
-    printf("client: sent %d bytes to %s\n",numbytes,host);
+   
     
     //converting the data into packets
     int remaining_data_count = filelen;
@@ -174,7 +169,6 @@ int main(int argc, char** argv) {
     }
     
     //
-    
     freeaddrinfo(servinfo);
     free(file_buf);
     free(packets);
@@ -184,6 +178,9 @@ int main(int argc, char** argv) {
 }
 
 /*
+ * TODO
+ * conver the packets into strings
+ * on client/server side do loop with recvfrom and sendto and send packets and acknowledgement
 command line arguments
 makefile
 s3,s4 
