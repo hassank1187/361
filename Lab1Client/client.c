@@ -22,6 +22,7 @@
 #include<arpa/inet.h>
 #include<netdb.h>
 #include <time.h>
+#include <math.h>
 
 /*
  * 
@@ -30,7 +31,7 @@
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
  */
-#define SERVERPORT "50000"
+#define SERVERPORT "50001"
 #define CLIENTPORT "51000"
 #define MAXBUFLEN 1000
 void *get_in_addr(struct sockaddr *sa)
@@ -40,6 +41,18 @@ void *get_in_addr(struct sockaddr *sa)
     }
 
 }
+
+struct packet {
+    unsigned int total_frag;
+    unsigned int frag_no;
+    unsigned int size;
+    char* filename;
+    char filedata[1000];
+
+};
+
+
+
 
 int main(int argc, char** argv) {
     int sockfd;
@@ -138,9 +151,33 @@ int main(int argc, char** argv) {
     }
     printf("client: sent %d bytes to %s\n",numbytes,host);
     
+    //converting the data into packets
+    int remaining_data_count = filelen;
+    double total_fragments = filelen / 1000.0;
+    int frag_count = total_fragments;
+    if(frag_count < total_fragments) frag_count += 1;
+    int buf_index = 0;
+    struct packet* packets = (struct packet*)malloc(frag_count * sizeof(struct packet));
+    
+    for(int i = 0; i < frag_count; i++){
+        packets[i].total_frag = frag_count;
+        packets[i].frag_no = i + 1;
+        packets[i].size = remaining_data_count < 1000 ? remaining_data_count: 1000;
+        remaining_data_count -= packets[i].size;
+        
+        for(int j = 0; j < packets[j].size; j++){
+            packets[i].filedata[j] = file_buf[buf_index];
+            buf_index += 1;
+        }
+        
+    
+    }
+    
+    //
     
     freeaddrinfo(servinfo);
-    
+    free(file_buf);
+    free(packets);
     
     close(sockfd);
     return (EXIT_SUCCESS);

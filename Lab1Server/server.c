@@ -24,7 +24,7 @@
 /*
  * 
  */
-#define SERVERPORT "50000"  // the port users will be connecting to
+#define SERVERPORT "50001"  // the port users will be connecting to
 #define MAXBUFLEN 1000
 #define CLIENTPORT "51000"
 /*
