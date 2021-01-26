@@ -32,7 +32,6 @@
  Code here taken from Beej's Guide to Network Programming
  */
 #define MAXBUFLEN 1000
-#define MAXLEN 1000
 void *get_in_addr(struct sockaddr *sa)
 {
     if(sa->sa_family == AF_INET){
@@ -58,16 +57,12 @@ int main(int argc, char** argv) {
     struct addrinfo hints, *servinfo, *p;
     int rv;
     int numbytes;
-    char* message;
+    char* message = "ftp";
     struct sockaddr_storage their_addr;
     char buf[MAXBUFLEN];
     socklen_t addr_len;
     char s[INET6_ADDRSTRLEN];
-    char* file_name;
-    char in_1[MAXLEN], in_2[MAXLEN];
-    scanf("%s %s", &in_1, &in_2);
-    message = in_1;
-    file_name = in_2;
+    char* file_name = "sample1.txt";
     
     
     
@@ -98,8 +93,7 @@ int main(int argc, char** argv) {
         return 2;
     }
     
-   
-    
+        
     
     if((numbytes = sendto(sockfd,message,strlen(message),0,p->ai_addr,p->ai_addrlen)) == -1){
         perror("client: sendto");
@@ -126,9 +120,15 @@ int main(int argc, char** argv) {
     char *rec = buf;
     const char* expected_response = "yes";
     if(!strcmp(expected_response,rec)) printf("A file transfer can start\n");
+    //calculating the round trip time
+    //end = clock();
+    //rt_time = ((double)end - start) / CLOCKS_PER_SEC;
+   //printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
     
-  
-    freeaddrinfo(servinfo);  
+   
+    freeaddrinfo(servinfo);
+   
+    
     close(sockfd);
     return (EXIT_SUCCESS);
 }

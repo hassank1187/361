@@ -32,6 +32,7 @@
  Code here taken from Beej's Guide to Network Programming
  */
 #define MAXBUFLEN 1000
+#define MAXLEN 1000
 void *get_in_addr(struct sockaddr *sa)
 {
     if(sa->sa_family == AF_INET){
@@ -57,12 +58,16 @@ int main(int argc, char** argv) {
     struct addrinfo hints, *servinfo, *p;
     int rv;
     int numbytes;
-    char* message = "ftp";
+    char* message;
     struct sockaddr_storage their_addr;
     char buf[MAXBUFLEN];
     socklen_t addr_len;
     char s[INET6_ADDRSTRLEN];
-    char* file_name = "sample1.txt";
+    char* file_name;
+    char in_1[MAXLEN], in_2[MAXLEN];
+    scanf("%s %s", &in_1, &in_2);
+    message = in_1;
+    file_name = in_2;
     
     
     
@@ -72,8 +77,8 @@ int main(int argc, char** argv) {
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     
-    const char* host = argv[1];
-    const char* SERVERPORT = argv[2];
+    const char* host = "ug142.eecg.utoronto.ca";
+    const char* SERVERPORT = "51000";
     
     if((rv = getaddrinfo(host,SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));

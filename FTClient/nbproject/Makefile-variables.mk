@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=lab1client
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/lab1client
+CND_ARTIFACT_NAME_Debug=ftclient
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/ftclient
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=lab1client.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/lab1client.tar
+CND_PACKAGE_NAME_Debug=ftclient.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/ftclient.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=lab1client
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/lab1client
+CND_ARTIFACT_NAME_Release=ftclient
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/ftclient
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=lab1client.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/lab1client.tar
+CND_PACKAGE_NAME_Release=ftclient.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/ftclient.tar
 #
 # include compiler specific variables
 #
