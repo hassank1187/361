@@ -31,8 +31,6 @@
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
  */
-#define SERVERPORT "50001"
-#define CLIENTPORT "51000"
 #define MAXBUFLEN 1000
 void *get_in_addr(struct sockaddr *sa)
 {
@@ -66,13 +64,16 @@ int main(int argc, char** argv) {
     char s[INET6_ADDRSTRLEN];
     char* file_name = "sample1.txt";
     
+    
+    
     if(!(access(file_name,F_OK) == 0)) return 0;
     
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     
-    const char* host = "ug142.eecg.utoronto.ca";
+    const char* host = argv[1];
+    const char* SERVERPORT = argv[2];
     
     if((rv = getaddrinfo(host,SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
@@ -96,7 +97,7 @@ int main(int argc, char** argv) {
     // code to start measuring time
     clock_t start,end;
     double rt_time;
-    start = clock();
+    //start = clock();
     
     
     if((numbytes = sendto(sockfd,message,strlen(message),0,p->ai_addr,p->ai_addrlen)) == -1){
@@ -125,12 +126,12 @@ int main(int argc, char** argv) {
     const char* expected_response = "yes";
     if(!strcmp(expected_response,rec)) printf("A file transfer can start\n");
     //calculating the round trip time
-    end = clock();
-    rt_time = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
+    //end = clock();
+    //rt_time = ((double)end - start) / CLOCKS_PER_SEC;
+    //printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
     
     //
-    
+    /*
     
     FILE *fileptr;
     char* file_buf;
@@ -167,11 +168,11 @@ int main(int argc, char** argv) {
         
     
     }
-    
+    */
     //
     freeaddrinfo(servinfo);
-    free(file_buf);
-    free(packets);
+    //free(file_buf);
+    //free(packets);
     
     close(sockfd);
     return (EXIT_SUCCESS);

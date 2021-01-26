@@ -24,9 +24,7 @@
 /*
  * 
  */
-#define SERVERPORT "50001"  // the port users will be connecting to
 #define MAXBUFLEN 1000
-#define CLIENTPORT "51000"
 /*
  REFERENCE:
  Code here taken from Beej's Guide to Network Programming
@@ -53,7 +51,8 @@ int main(int argc, char** argv) {
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE;
-    
+    const char* SERVERPORT = argv[1];
+   
     if ((rv = getaddrinfo(NULL, SERVERPORT, &hints, &servinfo)) != 0){
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
