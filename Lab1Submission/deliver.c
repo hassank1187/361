@@ -94,11 +94,6 @@ int main(int argc, char** argv) {
     }
     
     
-    // code to start measuring time
-    clock_t start,end;
-    double rt_time;
-    //start = clock();
-    
     
     if((numbytes = sendto(sockfd,message,strlen(message),0,p->ai_addr,p->ai_addrlen)) == -1){
         perror("client: sendto");
@@ -121,58 +116,14 @@ int main(int argc, char** argv) {
     printf("client: packet is %d bytes long\n", numbytes);
     buf[numbytes] = '\0';
     printf("client: packet contains \"%s\"\n",buf);
-    //
+    
     char *rec = buf;
     const char* expected_response = "yes";
     if(!strcmp(expected_response,rec)) printf("A file transfer can start\n");
-    //calculating the round trip time
-    //end = clock();
-    //rt_time = ((double)end - start) / CLOCKS_PER_SEC;
-    //printf("Total Round Trip Time: %f s\n", rt_time) / CLOCKS_PER_SEC;
     
-    //
-    /*
-    
-    FILE *fileptr;
-    char* file_buf;
-    long filelen;
-    fileptr = fopen(file_name,"rb");
-    fseek(fileptr,0,SEEK_END);
-    filelen = ftell(fileptr);
-    rewind(fileptr);
-    
-    file_buf = (char*)malloc(filelen * sizeof(char));
-    fread(file_buf,filelen,1,fileptr);
-    fclose(fileptr);
-    
-   
-    
-    //converting the data into packets
-    int remaining_data_count = filelen;
-    double total_fragments = filelen / 1000.0;
-    int frag_count = total_fragments;
-    if(frag_count < total_fragments) frag_count += 1;
-    int buf_index = 0;
-    struct packet* packets = (struct packet*)malloc(frag_count * sizeof(struct packet));
-    
-    for(int i = 0; i < frag_count; i++){
-        packets[i].total_frag = frag_count;
-        packets[i].frag_no = i + 1;
-        packets[i].size = remaining_data_count < 1000 ? remaining_data_count: 1000;
-        remaining_data_count -= packets[i].size;
-        
-        for(int j = 0; j < packets[j].size; j++){
-            packets[i].filedata[j] = file_buf[buf_index];
-            buf_index += 1;
-        }
-        
-    
-    }
-    */
-    //
+
     freeaddrinfo(servinfo);
-    //free(file_buf);
-    //free(packets);
+    
     
     close(sockfd);
     return (EXIT_SUCCESS);
