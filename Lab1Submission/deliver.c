@@ -133,12 +133,3 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-/*
- * TODO
- * conver the packets into strings
- * on client/server side do loop with recvfrom and sendto and send packets and acknowledgement
-command line arguments
-makefile
-s3,s4 
- 
- */
